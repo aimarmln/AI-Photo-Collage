@@ -1,0 +1,5 @@
+{
+  "name": "AI Photo Collage",
+  "description": "An intelligent photo collage generator that uses AI to suggest layouts. Users can upload photos, select templates, and arrange images to create beautiful collages.",
+  "requestFramePermissions": []
+}
