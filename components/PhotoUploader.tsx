@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { ImageInfo } from '../types';
 import { UploadIcon } from './icons/UploadIcon';
+import { toast } from 'react-toastify';
 
 interface PhotoUploaderProps {
   onPhotosUpload: (photos: ImageInfo[]) => void;
@@ -12,6 +13,11 @@ const PhotoUploader: React.FC<PhotoUploaderProps> = ({ onPhotosUpload, uploadedI
   const [isDragging, setIsDragging] = useState(false);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
+    if (uploadedImages.length + acceptedFiles.length > 4) { // Set max 4
+      toast.error("Max uploaded images: 4");
+      return;
+    }
+
     const newPhotos: ImageInfo[] = [];
     acceptedFiles.forEach(file => {
       const reader = new FileReader();
@@ -24,11 +30,15 @@ const PhotoUploader: React.FC<PhotoUploaderProps> = ({ onPhotosUpload, uploadedI
       reader.readAsDataURL(file);
     });
     setIsDragging(false);
-  }, [onPhotosUpload]);
+  }, [onPhotosUpload, uploadedImages]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { 'image/*': [] },
+    accept: { 
+      'image/jpeg': [], 
+      'image/jpg': [], 
+      'image/png': [], 
+    },
     onDragEnter: () => setIsDragging(true),
     onDragLeave: () => setIsDragging(false),
    });
@@ -48,7 +58,7 @@ const PhotoUploader: React.FC<PhotoUploaderProps> = ({ onPhotosUpload, uploadedI
         <div className="flex flex-col items-center text-gray-400">
             <UploadIcon className="w-10 h-10 mb-2" />
             <p className="font-semibold">Drag & drop photos here, or click to select</p>
-            <p className="text-sm text-gray-500">Supports JPEG, PNG, GIF</p>
+            <p className="text-sm text-gray-500">Supports JPEG, JPG, PNG</p>
         </div>
       </div>
 

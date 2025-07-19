@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
+
 import { ImageInfo, TemplateKey, CollageItem, DragData } from './types';
 import { TEMPLATES } from './constants';
-import PhotoUploader from './components/PhotoUploader';
-import TemplateSelector from './components/TemplateSelector';
 import CollageCanvas from './components/CollageCanvas';
 import { generateSmartCollage } from './services/geminiService';
 import { Header } from './components/Header';
@@ -137,6 +137,7 @@ const App: React.FC = () => {
           )}
         </div>
       </main>
+      <ToastContainer position="top-right" />
     </div>
   );
 };
